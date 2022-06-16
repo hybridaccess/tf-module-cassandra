@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        # Generate an access token from the Clone GitHub app, used to clone repos
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v1
         with:

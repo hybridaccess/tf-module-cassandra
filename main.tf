@@ -57,7 +57,6 @@ resource "azurerm_lb" "this" {
   resource_group_name = var.azurerm_resource_group
   sku                 = "Standard"
   sku_tier            = "Regional"
-  tags                = module.labels.tags
 
   frontend_ip_configuration {
     name                          = "PrivateIPAddress"

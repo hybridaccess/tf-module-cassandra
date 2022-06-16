@@ -32,11 +32,6 @@ variable "azurerm_resource_group" {
   description = "Name of resource group to deploy cassandra"
 }
 
-variable "labels_context" {
-  description = "null-label module context"
-  type        = string
-  default     = "e30=" # base64ecode(jsonencode({}))
-}
 
 variable "name" {
   type        = string
