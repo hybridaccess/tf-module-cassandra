@@ -1,0 +1,22 @@
+name: terraform
+
+on: [pull_request]
+
+jobs:
+  fmt-check:
+    runs-on: ubuntu-latest
+    name: terraform fmt
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        # Generate an access token from the Clone GitHub app, used to clone repos
+      - name: terraform fmt
+        uses: dflook/terraform-fmt-check@v1
+        with:
+          path: ./
