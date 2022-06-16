@@ -12,23 +12,19 @@ function parse_input() {
   if [[ -z "${AZ_TENANT}" ]]; then export AZ_TENANT=none; fi
 }
 
-
 function az_login() {
-  OPTIONS=(--service-principal --username ${TF_VAR_azuread_application_id} --password=${TF_VAR_azuread_client_secret} --tenant ${AZ_TENANT})
-  # eval "$(az login --service-principal --username ${TF_VAR_azuread_application_id} --password=${TF_VAR_azuread_client_secret} --tenant ${AZ_TENANT})"
+  OPTIONS=(--service-principal --username ""${azuread_application_id} --password=${azuread_client_secret} --tenant ${AZ_TENANT})
   az login "${OPTIONS[@]}"
 }
 
 function set_subscription() {
-  OPTIONS=(--subscription "$SUBSCRIPTION_NAME")
-  # eval "$(az account set --subscription "$SUBSCRIPTION_NAME")"
+  OPTIONS=(--subscription ${SUBSCRIPTION_NAME})
   az account set "${OPTIONS[@]}"
 }
 
 check_deps
 parse_input
 az_login
-
 
 eval "$(jq -r '@sh "CLUSTER_NAME=\(.cluster_name) RESOURCE_GROUP=\(.resource_group) SUBSCRIPTION_NAME=\(.subscription_name)"')"
 
