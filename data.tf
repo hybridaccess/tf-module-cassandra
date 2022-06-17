@@ -1,5 +1,12 @@
 data "azurerm_subscription" "current" {}
 
+data "local_file" "node_ips" {
+  filename = local.node_ips_file
+
+  depends_on = [null_resource.get_nodes_ips]
+}
+
+/*
 data "external" "cassandra" {
   program = ["bash", "${path.module}/scripts/cassandra_config.sh"]
 
@@ -12,3 +19,4 @@ data "external" "cassandra" {
 
   depends_on = [azurerm_cosmosdb_cassandra_datacenter.this]
 }
+*/

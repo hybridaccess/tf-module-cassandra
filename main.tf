@@ -48,6 +48,22 @@ resource "null_resource" "external_nodes" {
   depends_on = [azurerm_cosmosdb_cassandra_datacenter.this]
 }
 
+// Get nodes ip addresses from cluster
+
+resource "null_resource" "get_nodes_ips" {
+
+  provisioner "local-exec" {
+    command = "az managed-cassandra cluster show --cluster-name ${var.name} --resource-group ${var.azurerm_resource_group} --subscription \"${data.azurerm_subscription.current.display_name}\" --query \"properties.seedNodes\" -o json > ${local.node_ips_file} "
+  }
+
+  triggers = {
+    nodes = var.node_count
+  }
+
+  depends_on = [azurerm_cosmosdb_cassandra_datacenter.this]
+}
+
+
 
 // Cassandra nodes load balancer
 
@@ -78,9 +94,9 @@ resource "azurerm_lb_backend_address_pool_address" "this" {
   name                    = "node-${count.index + 1}"
   backend_address_pool_id = azurerm_lb_backend_address_pool.this.id
   virtual_network_id      = var.cassandra_vnet_id
-  ip_address              = local.seed_node_ips[count.index]
+  ip_address              = local.node_ips[count.index]
 
-  depends_on = [data.external.cassandra]
+  depends_on = [data.local_file.node_ips]
 }
 
 resource "azurerm_lb_rule" "this" {
