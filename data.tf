@@ -4,6 +4,7 @@ data "local_file" "node_ips" {
   filename = local.node_ips_file
 
   depends_on = [null_resource.get_nodes_ips]
+}
 
 /*
 data "external" "cassandra" {
