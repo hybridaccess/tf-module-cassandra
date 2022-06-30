@@ -15,7 +15,7 @@ resource "azurerm_cosmosdb_cassandra_cluster" "this" {
     delete = "60m"
   }
 
-  depends_on = [azurerm_role_assignment.this, azurerm_role_assignment.this2]
+  depends_on = [azurerm_role_assignment.this]
 }
 
 resource "azurerm_cosmosdb_cassandra_datacenter" "this" {
