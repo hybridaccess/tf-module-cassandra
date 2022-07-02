@@ -59,7 +59,8 @@ resource "null_resource" "get_nodes_ips" {
   }
 
   triggers = {
-    nodes = var.node_count
+    # nodes = var.node_count
+    always_run = timestamp()
   }
 
   depends_on = [azurerm_cosmosdb_cassandra_datacenter.this]
